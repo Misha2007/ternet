@@ -145,7 +145,8 @@ If you encounter any issues or need further assistance, you can:
 ![image](https://github.com/Misha2007/ternet/assets/55316381/76b4e4e4-3e62-456d-9a84-203b46b4cf26)
 *Description of the home page.*
 
-![image](https://github.com/Misha2007/ternet/assets/55316381/80d42fb2-163c-4724-806e-42a40f6f61bf)
+![image](https://github.com/Misha2007/ternet/assets/55316381/6d0f4736-a3f9-4920-b0b8-66beaee1ce14)
+
 *Description of the user profile page.*
 
 ![image](https://github.com/Misha2007/ternet/assets/55316381/566abf7c-463b-4e14-b7a0-98c1f2a788ba)
