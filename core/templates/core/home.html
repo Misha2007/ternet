@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class = "home-container">
+
+    <div id="topics">
+        {% include 'core/topics_component.html' %}
+    </div>
+    
+    <div id="feed">
+        <!-- <form action="{% url 'topics' %}" method="get" class="topic-detail-form">
+            <button type="submit" style="background: #fff; cursor: pointer;"><i class="fa fa-search"></i></button>
+            <input type="text" value="" name="q" placeholder="Search topics..." id="search-form-topics" />
+        </form>
+        <div id="mob-home-links">
+            <a href="{% url 'topics' %}" class="mob-home-link">Brows topics</a>
+            <a href="#" class="mob-home-link">Recent Activities</a>
+        </div> -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 20px;">
+            {% if not request.GET %}
+            <h2>All rooms</h2>
+            {% else %}
+            <h2>Sorted by {{request.GET.q}}</h2>
+            {% endif %}
+            <a href="{% url 'create-room' %}" style="color: #ffffff; font-size: 25px; background-color: #262020; padding: 15px; border-radius: 8px;"><span>+</span> Create room</a>
+        </div>
+        
+        <h5>{{room_count}} rooms available</h5>
+        {% include 'core/feed_component.html' %}
+    </div>
+
+    <div id="activ">
+        <h3 id="recent-activ">Recent Activities</h3>
+        <div id="activ-compon">
+            {% include 'core/activity_component.html' %}
+        </div>
+    </div>
+</div>
+
+<!-- <footer class="fixed-footer">
+    <a href="{% url 'home' %}"><i class="fa fa-home" style="color: #fff; font-size: 20px;"></i></a>
+    <a href="{% url 'topics' %}"><i class="fa fa-search" style="color: #fff; font-size: 20px;"></i></a>
+    <a href=""><i class="fa fa-comments" style="color: #fff; font-size: 20px;"></i></a>
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'user-profile' request.user.id %}"><i class="fa fa-user" style="color: #fff; font-size: 20px;"></i></a>
+    {% else %}
+    <a href="{% url 'login' %}"><i class="fa fa-user" style="color: #fff; font-size: 20px;"></i></a>
+    {% endif %}
+</footer> -->
+
+
+{% endblock content %}

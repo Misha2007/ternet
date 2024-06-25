@@ -1,0 +1,63 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="activities-full" style="display: flex; justify-content: center;">
+    <div class="form-room-full">
+        <div class="room-header">
+            <div style="display: flex; align-items: center; margin-left: 20px; padding-top: 10px;">
+                <a href="{{request.META.HTTP_REFERER}}" style="width: 50px;"><img src="https://png.pngtree.com/png-clipart/20230823/original/pngtree-back-arrow-backward-direction-previous-picture-image_8228825.png" alt="" style="width: 70%; margin: 0;"></a>
+                <h3 style="color: #fff;">ROOMS</h3>
+            </div>
+            <div style="margin-right: 30px;">
+               
+            </div>
+        </div>
+        {% if request.user.is_authenticated %}
+        <div class="form-room">
+            {% load custom_filters %}
+            {% for message in room_messages %}
+            {% if not break_loop %}
+                {% if 'minutes' in message.created|timesince and request.user != message.user and request.user == message.room.host %}
+                        <div class="activ-messages">
+                            
+                            <div class="participants">
+                                <div style="position: relative; width: 80px; height: 80px;">
+                                    <img src="https://kinsta.com/wp-content/uploads/2020/08/tiger-jpg.jpg" alt="" class="prof-img participant-user">
+                                    <span style="position: absolute; left: 40%; top: 30%; border-radius: 50%; margin: 20px; width: 10px; height: 10px; border: 0.2em #fff solid;"></span>
+                                </div>
+                                <div>
+                                    <span class="participant-user-user"><a href="{% url 'user-profile' message.user.id %}" style="color: rgb(3, 24, 58); font-size: 16px;">@{{message.user}}</span></a>
+                                    <p style="margin: 0;"> {{message.created|timesince}} ago</p>
+                                    <div style="display: inline-block; margin-top: 10px;">
+                                        <small>replied to room </small>
+                                        <a href="{% url 'room' message.room.id %}" style="color: rgb(6, 38, 89);">"{{message.room}}"</a></div>
+                                </div>
+                            </div>
+
+                            <div class="message-body" style="margin-bottom: 10px;">
+                                <p>{{message.body}}</p>
+                                {% if request.user == message.user %}
+                                <a href="{% url 'delete-message' message.id %}" onclick="return confirm('Are you sure you want to delete the message?');"><i class="fa fa-trash" style="font-size: 20px; margin-left: 20px; margin-top: 12px;"></i></a>
+                                {% endif %}
+                            </div>
+                            
+                        </div>
+                    {% else %}
+                    <p style="height: 70vh; display: flex; justify-content: center; align-items: center;">You don't have recent activities 😞</p>
+                    {% set_break %}
+                {% endif %}
+                {% endif %}
+            {% endfor %}
+
+        </div>
+        {% else %}
+        <div class="form-room">
+        <p style="height: 70vh; display: flex; justify-content: center; align-items: center;">First at all you should to login or sign up</p>
+        </div>
+
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,67 @@
+<style>
+    #search-form-topics{
+        float: left;
+        border-style: solid;
+        border-color: #000;
+        width: 100%;
+        height: 5vh;
+        font-size: 15px;
+    }
+
+    .topic-detail-form{
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .topic-detail-form button{
+        height: 5vh;
+    }
+</style>
+
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="topics" style="display: flex; justify-content: center;">
+    <div class="form-room-full">
+        <div class="room-header">
+            <div style="display: flex; align-items: center; margin-left: 20px; padding-top: 10px;">
+                <a href="{{request.META.HTTP_REFERER}}" style="width: 50px;"><img src="https://png.pngtree.com/png-clipart/20230823/original/pngtree-back-arrow-backward-direction-previous-picture-image_8228825.png" alt="" style="width: 70%; margin: 0;"></a>
+                <h3 style="color: #fff;">ROOMS</h3>
+            </div>
+            <div style="margin-right: 30px;">
+               
+            </div>
+        </div>
+        <div class="form-room" style="display: flex; align-items: center; justify-content: center;">
+
+            <ul class="chart">
+                <form action="{% url 'topics' %}" method="get" class="topic-detail-form">
+                    <button type="submit" style="background: #fff; cursor: pointer;"><i class="fa fa-search"></i></button>
+                    <input type="text" value="" name="q" placeholder="Search topics..." id="search-form-topics" />
+                </form>
+                <div class = "topic_block">
+                <li>
+                    <a href="{% url 'home' %}" class="topic"> 
+                        <span style="font-weight: bold;">All </span><span>{{topics.count}}</span>
+                    </a>
+                </li>
+                <hr>
+                {% for topic in topics %}
+                <div class = "topic_block">
+                    <li>
+                            <a href="{% url 'home' %}?q={{topic.name}}" class="topic">
+                                <span>{{topic.name}}</span> <span>{{topic.room_set.all.count}}</span>
+                            </a>
+                    </li>
+                    <hr>
+                </div>
+                {% endfor %}
+            </div>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Remove Arrow From Dropdown</title> 
+	
+	<style> 
+	/* apply CSS to the select tag of 
+		.dropdown-container div*/ 
+
+	.dropdown-container select { 
+		/* for Firefox */ 
+		-moz-appearance: none; 
+		/* for Safari, Chrome, Opera */ 
+		-webkit-appearance: none; 
+	} 
+
+	/* for IE10 */ 
+	.dropdown-container select::-ms-expand { 
+		display: none; 
+	}
+	</style> 
+	
+</head> 
+
+<body> 
+	<h1 style="color: #008000">GeeksforGeeks</h1> 
+	<b> 
+	How to remove the default arrow 
+	icon from a dropdown list? 
+	</b> 
+	<p> 
+	A sample dropdown list for difficulty 
+	level of a problem: 
+	</p> 
+	<div class="dropdown-container"> 
+	<!-- This is our drop-down element -->
+	<select> 
+		<option value="none" selected disabled hidden> 
+			Select difficulty level.... 
+		</option> 
+		<option>School</option> 
+		<option>Basic</option> 
+		<option>Easy</option> 
+		<option>Medium</option> 
+		<option>Hard</option> 
+	</select> 
+	</div> 
+	
+</body> 
+</html> 

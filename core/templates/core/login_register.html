@@ -1,0 +1,161 @@
+{% extends 'main.html' %} {% block content %} {% if page == 'login' %}
+
+<!-- <div>
+    
+
+    <p>Haven't signed up yet?</p>
+    <a href="{% url 'register' %}">Sign up</a>
+</div> -->
+
+<div style="display: flex; justify-content: center">
+  <div class="form-room-full">
+    <div
+      class="room-header"
+      style="
+        height: 50px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          margin-left: 20px;
+          padding-top: 10px;
+        "
+      >
+        <a href="{{request.META.HTTP_REFERER}}" style="width: 50px"
+          ><img
+            src="https://png.pngtree.com/png-clipart/20230823/original/pngtree-back-arrow-backward-direction-previous-picture-image_8228825.png"
+            alt=""
+            style="width: 70%; margin: 0"
+        /></a>
+        <h3 style="color: #fff">ROOMS</h3>
+      </div>
+      <div style="margin-right: 30px"></div>
+    </div>
+    <div class="form-room">
+      <form action="" method="POST" class="form">
+        <h2 style="text-align: center">Log in</h2>
+        {% csrf_token %}
+        <div class="group-form">
+          <p><label for="">Email:</label></p>
+          <input type="text" name="email" placeholder="Enter Email" />
+        </div>
+
+        <div class="group-form">
+          <p><label for="">Password:</label></p>
+          <input type="password" name="password" placeholder="Enter Password" />
+        </div>
+
+        <p>Haven't signed up yet? <a href="{% url 'register' %}">Sign up</a></p>
+
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+          "
+        >
+          <input
+            type="button"
+            value="Cancel"
+            class="room-create"
+            style="background-color: #fff; color: #070706; margin: 0"
+          />
+          <input
+            type="submit"
+            type="Submit"
+            class="room-create"
+            style="margin: 20px 0"
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% else %}
+
+<!-- <div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <input type="submit" name="Register" />
+    </form>
+
+    <p>Already signed up?</p>
+    <a href="{% url 'login' %}">Log in</a>
+</div> -->
+
+<div style="display: flex; justify-content: center">
+  <div class="form-room-full">
+    <div
+      class="room-header"
+      style="
+        height: 50px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          margin-left: 20px;
+          padding-top: 10px;
+        "
+      >
+        <a href="{{request.META.HTTP_REFERER}}" style="width: 50px"
+          ><img
+            src="https://png.pngtree.com/png-clipart/20230823/original/pngtree-back-arrow-backward-direction-previous-picture-image_8228825.png"
+            alt=""
+            style="width: 70%; margin: 0"
+        /></a>
+        <h3 style="color: #fff">ROOMS</h3>
+      </div>
+      <div style="margin-right: 30px"></div>
+    </div>
+    <div class="form-room">
+      <form action="" method="POST" class="form">
+        {% csrf_token %}
+        <h2 style="text-align: center">Sign up</h2>
+
+        {% for field in form %}
+        <div class="group-form">
+          <p><label for="">{{field.label}}:</label></p>
+          {{field}}
+        </div>
+        {% endfor %}
+
+        <p>Already signed up? <a href="{% url 'login' %}">Log in</a></p>
+
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+          "
+        >
+          <input
+            type="button"
+            value="Cancel"
+            href="{{request.META.HTTP_REFERER}}"
+            class="room-create"
+            style="background-color: #fff; color: #070706; margin: 0"
+          />
+          <input
+            type="submit"
+            type="Submit"
+            class="room-create"
+            style="margin: 20px 0"
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endif %} {% endblock content %}

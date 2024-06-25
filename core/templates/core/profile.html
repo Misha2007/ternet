@@ -1,0 +1,49 @@
+{% extends 'main.html' %} {% block content %}
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+<div class="profile-container">
+  <div id="topics">{% include 'core/topics_component.html' %}</div>
+
+  <div id="feed">
+    {% if request.user != user %}
+    <div style="display: flex; justify-content: end; margin: 20px 50px">
+      <a href="{{request.META.HTTP_REFERER}}"
+        ><i class="fa fa-close" style="font-size: 36px"></i
+      ></a>
+    </div>
+    {% endif %}
+    <div class="profile">
+      <div class="user">
+        <img src="{{user.avatar.url}}" alt="" class="prof-img profile-image" />
+      </div>
+      <h1 class="user">{{user.name}}</h1>
+      <h3 class="user"><a href="#" class="user-link">@{{user.username}}</a></h3>
+      {% if request.user == user %}
+      <a href="{% url 'update-user' %}" class="user edit"
+        >Edit profile <i class="fa fa-edit"></i
+      ></a>
+      {% endif %}
+    </div>
+
+    <div>
+      <h2>ABOUT</h2>
+      <p style="font-size: clamp(1rem, 0.875rem + 0.5vw, 1.25rem)">
+        {{user.bio}}
+      </p>
+    </div>
+
+    <div class="roomList_header">
+      <div>
+        <h2>Rooms Hosted by @{{user.username}}</h2>
+      </div>
+    </div>
+    {% include 'core/feed_component.html' %}
+  </div>
+
+  <div id="activ">
+    <h3 id="recent-activ">Recent Activities</h3>
+    <div id="activ-compon">{% include 'core/activity_component.html' %}</div>
+  </div>
+</div>
+
+{% endblock %}

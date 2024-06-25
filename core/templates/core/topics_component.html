@@ -1,0 +1,38 @@
+
+
+<h3>Browse topics</h3>
+<hr>
+
+<ul class="chart">
+    <div class = "topic_block">
+        <li>
+            <a href="{% url 'home' %}" class="topic"> 
+                <span style="font-weight: bold;">All </span><span>{{room_count}}</span>
+            </a>
+        </li>
+    </div>
+        {% for topic in topics %}
+        <div class = "topic_block">
+            <li>
+                <!-- {{request.GET.get.q}} -->
+                {% if request.GET.q == topic.name %}
+                <a href="{% url 'home' %}?q={{topic.name}}" class="topic">
+                    <span style="font-weight: bold;">{{topic.name}}</span> <span>{{topic.room_set.all.count}}</span>
+                </a>
+                {% else %}
+                    <a href="{% url 'home' %}?q={{topic.name}}" class="topic">
+                        <span>{{topic.name}}</span> <span>{{topic.room_set.all.count}}</span>
+                    </a>
+                {% endif %}
+            </li>
+        </div>
+        {% endfor %}
+    </ul>
+
+    <div style="margin-top: 20px;">
+        <a href="{% url 'topics' %}" class="topic-more" > 
+            <span>More <i class="fa fa-chevron-down" style="margin-left: 10px;"></i></span>
+        </a>
+    </div>
+
+    <!-- <button><a href=""></a></button> -->

@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+{% for room in rooms %}
+
+<div class="room room-home" style="position: relative;">
+    <!-- <div style="display: flex; align-items: center; justify-content: end;"> -->
+    <div class="name-time">
+        <div class="data-user">
+            <div style="position: relative;">
+                <img src="{{room.host.avatar.url}}" alt="" class="prof-img host">
+                <span style="position: absolute; left: 55%; top: 50%; border-radius: 50%; margin: 20px; width: 15px; height: 15px; border: 0.3em #fff solid;" class="check-on-off"></span>
+            </div>
+            <a href="{% url 'user-profile' room.host.id %}" id="creator">@{{room.host.username}}</a> 
+        </div>
+        <div style="display: flex; justify-content: end;">
+            <a href="{% url 'home' %}?q={{room.topic.name}}"><p class="room-topic-name topic-room-top">{{room.topic.name}}</p></a>
+        </div>
+    </div>
+
+    <div class="name-time">
+        <h3><a href="{% url 'room' room.id %}" style="font-size: 25px;">{{room.name}}</a></h3>
+        <p>{{room.created|timesince}} ago</p>
+    </div>
+    <h4>{{room.description|truncatewords:100}}</h4>
+    <hr>
+    <div class="under-content">
+        <div>{{room.participants.all.count}} Joined</div>
+        <div style="display: flex; align-items: center;">
+            {% if request.user == room.host %}
+            <a href="{% url 'update-room' room.id %}"><i class="fa fa-edit" style="font-size: 25px; padding-right: 20px;"></i></a>
+            <a href="{% url 'delete-room' room.id %}"><i class="fa fa-trash" style="font-size: 25px; padding-right: 20px;"></i></a>
+            {% endif %}
+            <a href="{% url 'room' room.id %}"><div class="room-topic-name"><p>Join to the room</p></div></a>
+        </div>
+    </div>
+    
+</div>
+{% endfor %}

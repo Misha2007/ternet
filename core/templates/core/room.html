@@ -1,0 +1,166 @@
+<script>
+    $(document).ready(function() {
+        // Check if the URL contains a hash (fragment identifier)
+        if (window.location.hash) {
+            // Extract the hash value (the part after the #)
+            var hash = window.location.hash.substring(1); // Remove the #
+
+            // Find the target element by ID
+            var target = $('#' + hash);
+
+            // Check if the target element exists
+            if (target.length) {
+                // Scroll to the target element
+                $('html, body').animate({
+                    scrollTop: target.offset().top
+                }, 1000); // Adjust the duration as needed
+            }
+        }
+    });
+
+    function showHide(body, id) {
+        var input_reply = document.getElementById('input-reply');
+        input_reply.value = id
+        var reply_message = document.getElementById('reply-message');
+        reply_message.textContent = body
+        var reply_message_bg = document.getElementById('reply-message-bg');
+        reply_message_bg.style.display = 'flex'
+    }
+
+    function replyCancel() {
+        var input_reply = document.getElementById('input-reply');
+        input_reply.value = ''
+        var reply_message = document.getElementById('reply-message');
+        reply_message.textContent = ''
+        var reply_message_bg = document.getElementById('reply-message-bg');
+        reply_message_bg.style.display = 'none'
+    }
+</script>
+
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="room-container">
+    <div class="room">
+        <div class="room-header">
+            <div style="display: flex; align-items: center; margin-left: 20px; padding-top: 10px;">
+                <a href="/" style="width: 50px;"><img src="https://png.pngtree.com/png-clipart/20230823/original/pngtree-back-arrow-backward-direction-previous-picture-image_8228825.png" alt="" style="width: 70%; margin: 0;"></a>
+                <h3 style="color: #fff;">ROOMS</h3>
+            </div>
+            {% if request.user == room.host %}
+            <div style="margin-right: 30px;">
+                <a href="{% url 'update-room' room.id %}" style="padding: 50px; color: #fff;"><i class="fa fa-edit" style="font-size: 25px;"></i></a>
+                <a href="{% url 'delete-room' room.id %}"><i class="fa fa-trash" style="font-size: 25px; color: #fff;"></i></a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="room-body">
+            <!-- <h4>CREATED BY</h4> -->
+            <div style="display: flex; justify-content: space-between;">
+                <div class="participants" style="margin: 0;">
+                    <div style="position: relative;">
+                        <img src="{{room.host.avatar.url}}" alt="" class="prof-img host">
+                        <span style="position: absolute; left: 55%; top: 50%; border-radius: 50%; margin: 20px; width: 15px; height: 15px; border: 0.3em #fff solid;" class="{{room.host.last_activity}}"></span>
+                    </div>
+                    <span class="participant-user-creator"><a href="{% url 'user-profile' room.host.id %}" class="creator-room">@{{room.host.username}}</span></a>
+                </div>
+                <span>{{room.created|timesince}}
+            </div>
+
+            </span>
+            <hr>
+            <p>{{room.host.is_user_online}}</p>
+            <div style="margin: 15px;">
+                <h2 style="font-size: clamp(1.5625rem, 1.3393rem + 0.7143vw, 1.875rem);">{{room.host.last_activity|timesince}} {{room.name}}</h2>
+                <h4>TOPICS</h4>
+                <div style="display: flex; margin: -10px;">
+                    <a href="{% url 'home' %}?q={{room.topic.name}}"><p class="room-topic-name topic-room-top">{{room.topic.name}}</p></a>
+                </div>
+                {% if room.description|length > 1 %}
+                <h3>ABOUT</h3>
+                {% endif %}
+                <p>{{ room.description }}</p>
+            </div>
+
+            <div class="comment-wrapper">
+                
+                {% if room_messages_count == 0 %}
+                <h1 style="font-size: 30px; text-align: center;">Start conversation 😜</h1>
+                {% endif %}
+                {% for message in room_messages %}
+                <div class="conversation" id="conversation">
+                    <div>
+                        <small>@{{message.user.username}}    {{message.created|timesince}} ago</small>
+                        <div>
+                        {% if request.user == message.user %}
+                        <a href="{% url 'delete-message' message.id %}" onclick="return confirm('Are you sure you want to delete the message?');"><i class="fa fa-trash"></i></a>
+                        {% endif %}
+                        {% if request.user.is_authenticated %}
+                        <a href="#converstion" class="reply-icon" onclick="showHide('{{ message.body }}', '{{ message.id }}')"><i class="fa fa-reply"></i></a>
+                        {% endif %}
+                    </div>
+                    </div>
+                    <p>{{message.body}}</p>
+                    <form method="POST" id="reply-form-{{ message.id }}" style="display: none;">
+                        {% csrf_token %}
+                        {% if request.user.is_authenticated %}
+                        <input type="hidden" name="parent_id" value="{{ message.id }}">
+                        <input type="text" name="body" placeholder="Reply...">
+                        <button type="submit">Send</button>
+                        {% endif %}
+                    </form>
+                </div>
+
+
+                {% for reply in message.replies.all %}
+                
+                <div class="conversation" id="conversation" style="margin-left: 2em;">
+                    <div>
+                        <small>@{{reply.user}}    {{reply.created|timesince}} ago</small>
+                        {% if request.user == reply.user %}
+                        <a href="{% url 'delete-message' message.id %}" onclick="return confirm('Are you sure you want to delete the message?');"><i class="fa fa-trash"></i></a>
+                        {% endif %}
+                    </div>
+                    <p style="word-wrap: break-word;">{{reply.body}}</p>
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+
+            {% if request.user.is_authenticated %}
+            <div class="comment-form">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div style="display: flex; justify-content: center;">
+                        <div id="reply-message-bg" style="display: none;">
+                            <p id="reply-message"></p>
+                            <i class="fa fa-close" style="cursor: pointer;" onclick="replyCancel()"></i>
+                        </div>
+                        <input type="hidden" name="parent_id" value="" id="input-reply">
+                        <input type="text" name="body" placeholder="Type your message..." class="input-message">
+                    </div>
+                </form>
+            </div>
+
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="activ">
+        <h3 id="recent-activ">Participants</h3>
+
+        {% for user in participants %}
+
+        <div class="participants">
+            <div style="position: relative; width: 80px; height: 80px;">
+                <img src="{{user.avatar.url}}" alt="" class="prof-img participant-user">
+                <span style="position: absolute; left: 40%; top: 45%; border-radius: 50%; margin: 20px; width: 10px; height: 10px; border: 0.2em #fff solid;" class="check-on-off"></span>
+            </div>
+            <span class="participant-user-user"><a href="{% url 'user-profile' user.id %}">@{{user.username}}</span></a>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
