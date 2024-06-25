@@ -24,7 +24,7 @@ This is a Django-based forum project where users can register, create topics, po
 1. **Clone the repository:**
 
     ```sh
-    git clone https://github.com/yourusername/your-repo-name.git
+    git clone https://github.com/Misha2007/ternet.git
     cd your-repo-name
     ```
 
@@ -78,16 +78,6 @@ This is a Django-based forum project where users can register, create topics, po
 - Users have profiles that display their information.
 - Online status is indicated with a green icon next to the user's profile picture.
 
-## Contributing
-
-Feel free to fork this repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/YourFeature`)
-3. Commit your Changes (`git commit -m 'Add some YourFeature'`)
-4. Push to the Branch (`git push origin feature/YourFeature`)
-5. Open a Pull Request
-
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
@@ -128,9 +118,8 @@ If you have any questions or need further assistance, please contact me at [your
 
 If you encounter any issues or need further assistance, you can:
 
-- Open an issue on the [GitHub repository](https://github.com/yourusername/your-repo-name/issues).
 - Check the [Django documentation](https://docs.djangoproject.com/en/stable/) for more information.
-- Contact the project maintainer at [your-email@example.com].
+- Contact the project maintainer at [mishadrogovoz@gmail.com].
 
 ## Future Enhancements
 
