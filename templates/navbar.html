@@ -1,0 +1,170 @@
+<style>
+    header{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #D2D68D;
+        height: 90px;
+        color: #e1d3d3;
+    }
+
+    header .item{
+        color: #767474;
+        font-size: 18px; 
+    }
+
+    .logo{
+        color: #e7fefc;
+    }
+
+    a{
+        color: #000;
+        text-decoration: none;
+    }
+
+    #search_form{
+        float: left;
+        display: inline;
+        border: none;
+        opacity: 0.6;
+        /* background-color: 0.2px; */
+        /* border: 0.2em ridge; */
+        /* border-radius: 10%; */
+        width: 300px;
+        height: 4vh;
+        font-size: 15px;
+    }
+
+    .fa-search{
+        /* font-size: 17em; */
+        /* opacity: 0.6; */
+        color: #000;
+    }
+
+    .item button{
+        /* width: 20%; */
+        /* padding: 10px; */
+        /* background: #2196F3; */
+        opacity: 0.3;
+        color: white;
+        /* font-size: 22.5px; */
+        height: 4.4vh;
+        font-size: 20px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .user-header{
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        margin-right: 10px;
+    }
+
+    .user-ac{
+        padding: 0;
+        margin-left: 0;
+    }
+
+    #dropdownContent{
+        border-radius: 8px;
+        visibility: hidden;
+        position: absolute;
+        top: 100px;
+        background-color: #fff;
+        border-style: solid;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        transition: opacity 0.3s;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f0f0eb;
+    }
+
+    .dropdown-toggle .fa {
+            transition: transform 0.3s;
+        }
+
+    .dropdown-toggle.up .fa {
+        transform: rotate(180deg);
+    }
+
+    .dropdown-toggle .fa {
+      transition: transform 0.3s;
+    }
+
+    .dropdown-toggle.up .fa {
+      transform: rotate(180deg);
+    }
+
+</style>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+      var toggleButton = document.getElementById('dropdownToggle');
+      var dropdownContent = document.getElementById('dropdownContent');
+
+      toggleButton.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default action of the <a> tag
+        var isVisible = dropdownContent.style.visibility === 'visible';
+        dropdownContent.style.visibility = isVisible ? 'hidden' : 'visible';
+        dropdownContent.style.opacity = isVisible ? '0' : '1';
+        toggleButton.classList.toggle('up', !isVisible);
+      });
+
+      // Hide the dropdown if the user clicks outside of it
+      window.addEventListener('click', function(event) {
+        if (!event.target.closest('.dropdown-toggle') && !event.target.closest('.dropdown-content')) {
+          dropdownContent.style.visibility = 'hidden';
+          dropdownContent.style.opacity = '0';
+          toggleButton.classList.remove('up');
+        }
+      });
+    });
+    
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<header>
+    <a href="/" class="item">
+        LOGO
+    </a>
+
+    <form action="{% url 'home' %}" method="get" class="item" id="header-search-bar">
+        <button type="submit"><i class="fa fa-search"></i></button>
+        <input type="text" value="" name="q" placeholder="Search rooms..." id="search_form" />
+    </form>
+
+    {% if request.user.is_authenticated  %}
+    <!-- <p class="item">Hello {{request.user}}</p> -->
+    <div class="item" style="display: flex; align-items: center; width: 70px;">
+      
+        <img src="{{request.user.avatar.url}}" alt="" class="user-header">
+     
+        <a href="#" id="dropdownToggle" class="dropdown-toggle"><i class="fa fa-chevron-down"></i></a>
+      
+      <div id="dropdownContent" class="dropdown-content">
+      <p><a href="{% url 'logout' %}" onclick="return confirm('Are you sure you want to log out from account?');" class="drop">Logout</a></p>
+      <p><a href="{% url 'update-user' %}" class="drop">Edit profile</a></p>
+       </div> 
+    </div>
+
+            {% else %}
+            <a href="{% url 'login' %}" class="item">Login</a>
+        {% endif %}
+
+    <!-- </div> -->
+
+</header>
+<hr class="hr-header">
